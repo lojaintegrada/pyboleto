@@ -3,12 +3,34 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm, cm
 from reportlab.lib.colors import black, white
 from reportlab.graphics.barcode.common import I2of5
+from reportlab.pdfbase.pdfmetrics import stringWidth
 import reportlab.lib.pagesizes
 import datetime
 
 class BoletoPDF(object):
+    """Geração do Boleto em PDF
+
+    Esta classe é responsável por imprimir o boleto em PDF.
+    Outras classes podem ser implementadas no futuro com a mesma interface, 
+    para faer outut em HTML, LaTeX, ...
+
+    Esta classe pode imprimir boletos em formato de carnê (2 boletos por
+    página) ou em formato de folha cheia.
+
+    """
 
     def __init__(self, file_descr, landscape = False ):
+        """Método construtor
+
+        Recebe um file_descr onde o output do boleto será impresso. 
+        O File descriptior aponta para um arquivo em disco ou para um Buffer
+        que depois pode ser usado para enviar para o cliente no caso de um 
+        sistema Web.
+
+        O construtor não recebe nenhum dados pois um arquivo pode conter vários
+        boletos. Portanto outros métodos são responsáveis por adicionar páginas.
+
+        """
         self.width = 190*mm
         self.widthCanhoto = 70*mm
         self.heightLine = 6.5*mm
@@ -29,6 +51,8 @@ class BoletoPDF(object):
         self.pdfCanvas.setStrokeColor( black )
 
     def drawReciboSacadoCanhoto(self, boletoDados, x, y ):
+        """Imprime o Recibo do Sacado para modelo de carnê"""
+
         self.pdfCanvas.saveState();
         self.pdfCanvas.translate( x, y );
 
@@ -130,6 +154,8 @@ class BoletoPDF(object):
             ((linhaInicial+2)*self.heightLine) )
 
     def drawReciboSacado(self, boletoDados, x, y ):
+        """Imprime o Recibo do Sacado para modelo de página inteira"""
+
         self.pdfCanvas.saveState();
         self.pdfCanvas.translate( x, y );
 
@@ -289,10 +315,18 @@ class BoletoPDF(object):
             boletoDados.data_vencimento.strftime('%d/%m/%Y') 
         )
 
+        # Take care of long field
+        sacado0 = unicode(boletoDados.sacado[0])
+        while(stringWidth( sacado0, 
+            self.pdfCanvas._fontname, 
+            self.pdfCanvas._fontsize) > 8.4*cm):
+            #sacado0 = sacado0[:-2] + u'\u2026'
+            sacado0 = sacado0[:-4] + u'...'
+
         self.pdfCanvas.drawString( 
             0 + self.space, 
             (((linhaInicial + 1)*self.heightLine)) + self.space, 
-            boletoDados.sacado[0] 
+            sacado0
         )
         self.pdfCanvas.drawString( 
             self.width - (30*mm) - (35*mm) - (40*mm) + self.space, 
@@ -700,6 +734,12 @@ class BoletoPDF(object):
         return (self.width, (y+self.heightLine) )
 
     def drawBoletoCarneDuplo(self, boletoDados1, boletoDados2 ):
+        """Imprime um boleto tipo carnê com 2 boletos por página.
+
+        Recebe os dois boletos como parâmetros posicionais.
+        boletoDados deve ser subclasse de :class:`BoletoData`
+
+        """
         y = 5*mm
         d = self.drawBoletoCarne(boletoDados1, y)
         y += d[1] + 6*mm
@@ -709,6 +749,12 @@ class BoletoPDF(object):
             self.drawBoletoCarne(boletoDados2, y)
 
     def drawBoletoCarne(self, boletoDados, y ):
+        """Imprime apenas dos boletos do carnê. 
+        
+        Esta função não deve ser chamada diretamente, ao invés disso use a 
+        drawBoletoCarneDuplo.
+
+        """
         x = 15*mm
         d = self.drawReciboSacadoCanhoto(boletoDados, x, y)
         x += d[0] + 8*mm
@@ -719,6 +765,12 @@ class BoletoPDF(object):
         return (x,d[1])
 
     def drawBoleto(self, boletoDados ):
+        """Imprime Boleto Convencional
+
+        Você pode chamar este método diversas vezes para criar um arquivo com 
+        várias páginas, uma por boleto.
+
+        """
         x = 3.5*mm
         y = 0
         #y += 2*mm
@@ -733,9 +785,13 @@ class BoletoPDF(object):
         return (self.width,y)
 
     def nextPage(self):
+        """Força início de nova página"""
+
         self.pdfCanvas.showPage()
 
     def save(self):
+        """Fecha boleto e constroi o arquivo"""
+
         self.pdfCanvas.save()
 
     def __horizontalLine( self, x, y, width ):
@@ -759,6 +815,12 @@ class BoletoPDF(object):
         return txt
 
     def _codigoBarraI25(self, num, x, y ):
+        """Código de barras otimizado para boletos
+
+        O código de barras é tomizado para que o comprimeto seja sempre o
+        estipulado pela febraban de 103mm.
+
+        """
         # http://en.wikipedia.org/wiki/Interleaved_2_of_5
 
         altura  = 13 * mm

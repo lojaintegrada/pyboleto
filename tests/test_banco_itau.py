@@ -40,6 +40,8 @@ class TestBancoItau(unittest.TestCase):
     def test_dv_agencia_conta_cedente(self):
         self.assertEqual(self.dados.dv_agencia_conta_cedente, 0)
 
+suite = unittest.TestLoader().loadTestsFromTestCase(TestBancoItau)
+
 if __name__ == '__main__':
     unittest.main()
 
