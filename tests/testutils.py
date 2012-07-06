@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import with_statement
 
 import difflib
 import fnmatch
@@ -64,6 +65,7 @@ def diff_pdf_htmls(original_filename, filename):
             data = f.read()
             data = re.sub(r'name="date" content="(.*)"',
                           r'name="date" content="%%DATE%%"', data)
+            data = re.sub(r'<pdf2xml[^>]+>', r'<pdf2xml>', data)
         with open(fname, 'w') as f:
             f.write(data)
 
