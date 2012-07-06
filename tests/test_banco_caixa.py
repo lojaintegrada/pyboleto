@@ -4,7 +4,10 @@ import datetime
 
 from pyboleto.bank.caixa import BoletoCaixa
 
-class TestBancoCaixa(unittest.TestCase):
+from testutils import BoletoTestCase
+
+
+class TestBancoCaixa(BoletoTestCase):
     def setUp(self):
         d = BoletoCaixa()
         d.carteira = 'SR'
@@ -18,21 +21,24 @@ class TestBancoCaixa(unittest.TestCase):
         d.numero_documento = '270319510'
         self.dados = d
 
+    def test_render(self):
+        self.check_pdf_rendering('caixa', self.dados)
+
     def test_linha_digitavel(self):
-        self.assertEqual(self.dados.linha_digitavel, 
+        self.assertEqual(self.dados.linha_digitavel,
             '10498.01952 25086.156582 70000.004146 1 53880000295295'
         )
-    
+
     def test_tamanho_codigo_de_barras(self):
         self.assertEqual(len(self.dados.barcode), 44)
 
     def test_codigo_de_barras(self):
-        self.assertEqual(self.dados.barcode, 
+        self.assertEqual(self.dados.barcode,
             '10491538800002952958019525086156587000000414'
         )
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestBancoCaixa)
 
+
 if __name__ == '__main__':
     unittest.main()
-

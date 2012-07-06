@@ -4,7 +4,10 @@ import datetime
 
 from pyboleto.bank.hsbc import BoletoHsbcComRegistro
 
-class TestBancoHsbcComRegistro(unittest.TestCase):
+from testutils import BoletoTestCase
+
+
+class TestBancoHsbcComRegistro(BoletoTestCase):
     def setUp(self):
         d = BoletoHsbcComRegistro()
         d.agencia_cedente = '0141-4'
@@ -17,13 +20,16 @@ class TestBancoHsbcComRegistro(unittest.TestCase):
         d.numero_documento = '02'
         self.dados = d
 
+    def test_render(self):
+        self.check_pdf_rendering('hsbc-registro', self.dados)
+
     def test_linha_digitavel(self):
-        self.assertEqual(self.dados.linha_digitavel, 
+        self.assertEqual(self.dados.linha_digitavel,
             '39991.71600 57195.001417 50002.520018 1 47780000033585'
         )
-    
+
     def test_codigo_de_barras(self):
-        self.assertEqual(self.dados.barcode, 
+        self.assertEqual(self.dados.barcode,
             '39991477800000335851716057195001415000252001'
         )
 
@@ -38,6 +44,6 @@ class TestBancoHsbcComRegistro(unittest.TestCase):
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestBancoHsbcComRegistro)
 
+
 if __name__ == '__main__':
     unittest.main()
-
