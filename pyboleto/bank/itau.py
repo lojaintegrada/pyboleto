@@ -2,9 +2,12 @@
 import os.path
 
 from pyboleto.data import BoletoData, custom_property
+from decimal import Decimal
 
-### CAUTION - NÃO TESTADO ###
-
+try:
+    from cnab240.bancos import itau
+except ImportError:
+    itau = None
 
 class BoletoItau(BoletoData):
     '''
@@ -15,7 +18,7 @@ class BoletoItau(BoletoData):
     def __init__(self, *args, **kwargs):
 
         super(BoletoItau, self).__init__(*args, **kwargs)
-
+        self.banco = itau
         self.codigo_banco = "341"
         self.logo_image_path = os.path.dirname(__file__) + \
             "/../media/logo_itau.jpg"
@@ -70,3 +73,16 @@ class BoletoItau(BoletoData):
 
         num = num.replace('X', str(dv), 1)
         return num
+
+    @property
+    def dicionario_cnab240(self):
+
+        # Copiar o conteudo do atributo readonly da classe pai
+        data = dict(super(BoletoItau, self).dicionario_cnab240.items())
+
+        data['cedente_agencia_conta_dv'] =  int(self.dv_agencia_conta_cedente)
+
+        return data
+
+
+
