@@ -12,6 +12,7 @@
 """
 import datetime
 from decimal import Decimal
+import re
 
 
 class BoletoException(Exception):
@@ -73,6 +74,7 @@ class BoletoData(object):
     """
 
     def __init__(self, *args, **kwargs):
+        self.banco = None
         self.aceite = "N"
         self.agencia_cedente = ""
         self.carteira = ""
@@ -383,6 +385,47 @@ class BoletoData(object):
         campo5 = linha[5:19]
 
         return "%s %s %s %s %s" % (campo1, campo2, campo3, campo4, campo5)
+
+    @property
+    def dicionario_cnab240(self):
+        so_numeros = re.compile("[^\d]")
+        data = dict()
+
+        cedente_documento = so_numeros.sub('', self.cedente_documento)
+        if len(cedente_documento) == 11:
+            data['cedente_inscricao_tipo'] =  1
+        elif len(cedente_documento) == 14:
+            data['cedente_inscricao_tipo'] =  2
+            
+        data['cedente_inscricao_numero'] = int(cedente_documento)
+        data['cedente_agencia'] =  int(self.agencia_cedente)
+        data['cedente_conta'] =  int(self.conta_cedente)
+        data['cedente_nome'] = unicode(self.cedente)
+        data['carteira_numero'] = int(self.carteira)
+        data['nosso_numero'] = int(self.nosso_numero)
+        data['nosso_numero_dv'] = int(self.dv_nosso_numero)
+        data['numero_documento'] = unicode(self.numero_documento)
+        data['vencimento_titulo'] = int(self.data_vencimento.strftime('%d%m%Y'))
+        data['valor_titulo'] = Decimal(self.valor_documento, 2)
+        data['aceite_titulo'] = unicode(self.aceite)
+        data['data_emissao_titulo'] = int(self.data_processamento.strftime('%d%m%Y'))
+
+        sacado_documento = so_numeros.sub('', self.sacado_documento)
+        if len(sacado_documento) == 11:
+            data['sacado_inscricao_tipo'] = 1
+        elif len(sacado_documento) == 14:
+            data['sacado_inscricao_tipo'] = 2
+
+        data['sacado_inscricao_numero'] = int(sacado_documento)
+        data['sacado_nome'] = unicode(self.sacado_nome)
+        data['sacado_endereco'] = unicode(self.sacado_endereco)
+        data['sacado_bairro'] = unicode(self.sacado_bairro)
+        data['sacado_cep'] = int(self.sacado_cep.split('-')[0])
+        data['sacado_cep_sufixo'] = int(self.sacado_cep.split('-')[1])
+        data['sacado_cidade'] = unicode(self.sacado_cidade)
+        data['sacado_uf'] = unicode(self.sacado_uf)
+
+        return data
 
     @staticmethod
     def formata_numero(numero, tamanho):
