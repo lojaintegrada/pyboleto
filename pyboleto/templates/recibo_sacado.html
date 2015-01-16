@@ -8,7 +8,7 @@
         <td class="banco-codigo">
           <div class="linhas-v">${codigo_dv_banco}</div>
         </td>
-        <td class="bol-linha-digitavel">Recibo do Sacado</td>
+        <td class="bol-linha-digitavel">Recibo do Pagador</td>
       </tr>
     </tbody>
   </table>
@@ -16,15 +16,15 @@
     <tbody>
       <tr>
         <td>
-          <div class="rotulo">Cedente</div>
+          <div class="rotulo">Beneficiário</div>
           ${cedente}
         </td>
         <td class="col-cedente-agencia">
-          <div class="rotulo">Agência/Código Cedente</div>
+          <div class="rotulo">Agência/Código do Beneficiário</div>
           ${agencia_conta_cedente}
         </td>
         <td class="col-cedente-documento">
-          <div class="rotulo">CPF/CNPJ Cedente</div> ${cedente_documento}
+          <div class="rotulo">CPF/CNPJ do Beneficiário</div> ${cedente_documento}
         </td>
         <td class="col-vencimento">
           <div class="rotulo">Vencimento</div> ${data_vencimento}
@@ -32,7 +32,7 @@
       </tr>
       <tr>
         <td>
-          <div class="rotulo">Sacado</div> ${sacado}
+          <div class="rotulo">Pagador</div> ${sacado}
         </td>
         <td>
           <div class="rotulo">Nosso Número</div> ${nosso_numero_format}
@@ -46,7 +46,7 @@
       </tr>
       <tr>
         <td colspan="3">
-          <div class="rotulo">Endereço Cedente</div> ${cedente_endereco}
+          <div class="rotulo">Endereço do Beneficiário</div> ${cedente_endereco}
         </td>
         <td width="100px" class="col-dir">
           <div class="rotulo">Valor Documento</div> ${valor_documento}
