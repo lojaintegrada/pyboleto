@@ -452,10 +452,10 @@ class BoletoPDF(object):
             self.width - (45 * mm) + self.space,
             y + self.space, 'Código de baixa'
         )
-        self.pdfCanvas.drawString(0, y + self.space, 'Sacador / Avalista')
+        self.pdfCanvas.drawString(0, y + self.space, 'Pagador')
 
         y += self.heightLine
-        self.pdfCanvas.drawString(0, y + self.deltaTitle, 'Sacado')
+        self.pdfCanvas.drawString(0, y + self.deltaTitle, 'Beneficiário')
         sacado = boletoDados.sacado
 
         # Linha grossa dividindo o Sacado
