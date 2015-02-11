@@ -120,7 +120,7 @@ class BoletoPDF(object):
         self.pdfCanvas.drawString(
             self.space,
             (((linhaInicial + 1) * self.heightLine)) + self.deltaTitle,
-            'Agência/Código Cedente'
+            'Agência/Cód. Beneficiário'
         )
         self.pdfCanvas.drawString(
             self.widthCanhoto - (35 * mm) + self.space,
@@ -264,17 +264,17 @@ class BoletoPDF(object):
         self.pdfCanvas.drawString(
             0,
             (((linhaInicial + 2) * self.heightLine)) + self.deltaTitle,
-            'Cedente'
+            'Beneficiário'
         )
         self.pdfCanvas.drawString(
             self.width - (30 * mm) - (35 * mm) - (40 * mm) + self.space,
             (((linhaInicial + 2) * self.heightLine)) + self.deltaTitle,
-            'Agência/Código Cedente'
+            'Agência/Cód. Beneficiário'
         )
         self.pdfCanvas.drawString(
             self.width - (30 * mm) - (35 * mm) + self.space,
             (((linhaInicial + 2) * self.heightLine)) + self.deltaTitle,
-            'CPF/CNPJ Cedente'
+            'CPF/CNPJ Beneficiário'
         )
         self.pdfCanvas.drawString(
             self.width - (30 * mm) + self.space,
@@ -303,7 +303,7 @@ class BoletoPDF(object):
         self.pdfCanvas.drawString(
             0,
             (((linhaInicial + 0) * self.heightLine)) + self.deltaTitle,
-            'Endereço Cedente'
+            'Endereço Beneficiário'
         )
         self.pdfCanvas.drawString(
             self.width - (30 * mm) + self.space,
