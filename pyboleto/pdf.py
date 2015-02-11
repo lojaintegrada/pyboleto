@@ -448,11 +448,6 @@ class BoletoPDF(object):
         y += self.heightLine
         self.pdfCanvas.setLineWidth(2)
         self.__horizontalLine(0, y, self.width)
-        self.pdfCanvas.drawString(
-            self.width - (45 * mm) + self.space,
-            y + self.space, 'Código de baixa'
-        )
-        self.pdfCanvas.drawString(0, y + self.space, 'Pagador')
 
         y += self.heightLine
         self.pdfCanvas.drawString(0, y + self.deltaTitle, 'Beneficiário')
