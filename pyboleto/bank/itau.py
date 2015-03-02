@@ -22,7 +22,7 @@ class BoletoItau(BoletoData):
 
     def __init__(self):
         super(BoletoItau, self).__init__()
-
+        self.local_pagamento = u'Até o vencimento, preferencialmente no Itaú.'
         self.codigo_banco = "341"
         self.logo_image = "logo_itau.jpg"
         self.especie_documento = 'DM'

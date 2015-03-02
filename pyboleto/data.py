@@ -149,13 +149,11 @@ class BoletoData(object):
         self.codigo_banco = kwargs.pop('codigo_banco', "")
         self.conta_cedente = kwargs.pop('conta_cedente', "")
         self.data_documento = kwargs.pop('data_documento', "")
-        self.data_processamento = kwargs.pop('data_processamento',
-                                             datetime.date.today())
+        self.data_processamento = kwargs.pop('data_processamento', datetime.date.today())
         self.data_vencimento = kwargs.pop('data_vencimento', "")
         self.especie = kwargs.pop('especie', "R$")
         self.especie_documento = kwargs.pop('especie_documento', "")
-        self.local_pagamento = kwargs.pop(
-            'local_pagamento', "Pagável em qualquer banco até o vencimento")
+        self.local_pagamento = kwargs.pop('local_pagamento', "Pagável em qualquer banco até o vencimento")
         self.logo_image = kwargs.pop('logo_image', "")
         self.moeda = kwargs.pop('moeda', "9")
         self.numero_documento = kwargs.pop('numero_do_documento', "")
