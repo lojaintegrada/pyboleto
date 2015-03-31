@@ -120,7 +120,7 @@ class BoletoPDF(object):
         self.pdfCanvas.drawString(
             self.space,
             (((linhaInicial + 1) * self.heightLine)) + self.deltaTitle,
-            'Agência/Cód. Beneficiário'
+            'Agência/Código do Beneficiário'
         )
         self.pdfCanvas.drawString(
             self.widthCanhoto - (35 * mm) + self.space,
