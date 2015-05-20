@@ -269,12 +269,12 @@ class BoletoPDF(object):
         self.pdfCanvas.drawString(
             self.width - (30 * mm) - (35 * mm) - (40 * mm) + self.space,
             (((linhaInicial + 2) * self.heightLine)) + self.deltaTitle,
-            'Agência/Código do Beneficiário'
+            'CPF/CNPJ Beneficiário'
         )
         self.pdfCanvas.drawString(
-            self.width - (30 * mm) - (35 * mm) + self.space,
+            self.width - (30 * mm) - (35 * mm) - (40 * mm) + self.space,
             (((linhaInicial + 2) * self.heightLine)) + self.deltaTitle,
-            'CPF/CNPJ Beneficiário'
+            'Agência/Código do Beneficiário'
         )
         self.pdfCanvas.drawString(
             self.width - (30 * mm) + self.space,
@@ -286,6 +286,7 @@ class BoletoPDF(object):
             0,
             (((linhaInicial + 1) * self.heightLine)) + self.deltaTitle,
             'Pagador')
+
         self.pdfCanvas.drawString(
             self.width - (30 * mm) - (35 * mm) - (40 * mm) + self.space,
             (((linhaInicial + 1) * self.heightLine)) + self.deltaTitle,
@@ -450,6 +451,7 @@ class BoletoPDF(object):
         self.__horizontalLine(0, y, self.width)
 
         y += self.heightLine
+        yy = y
         self.pdfCanvas.drawString(0, y + self.deltaTitle, 'Pagador')
         sacado = boletoDados.sacado
 
@@ -464,6 +466,16 @@ class BoletoPDF(object):
                 (y - 10) - (i * self.deltaFont),
                 sacado[i]
             )
+        self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
+
+        # Sacado documento
+        self.pdfCanvas.drawString(self.width - (44 * mm), yy + self.deltaTitle, 'CPF/CNPJ')
+
+        # <!--TODO-->
+        sacado_documento = ""
+        self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
+        self.pdfCanvas.drawString(self.width - (44 * mm), yy + self.deltaTitle - 13, sacado_documento)
+
         self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
 
         # Linha vertical limitando todos os campos da direita
@@ -672,6 +684,19 @@ class BoletoPDF(object):
         y += self.heightLine
         self.__horizontalLine(0, y, self.width)
         self.pdfCanvas.drawString(0, y + self.deltaTitle, 'Beneficiário')
+
+        self.__verticalLine(
+            (30 + 20 + 20 + 20 + 20) * mm,
+            y,
+            self.heightLine
+        )
+
+        self.pdfCanvas.drawString(
+            ((30 + 40 + 40) * mm) + self.space,
+            y + self.deltaTitle,
+            'CPF/CNPJ Beneficiário'
+        )
+
         self.pdfCanvas.drawString(
             self.width - (45 * mm) + self.space,
             y + self.deltaTitle,
@@ -680,6 +705,13 @@ class BoletoPDF(object):
 
         self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
         self.pdfCanvas.drawString(0, y + self.space, boletoDados.cedente)
+
+        self.pdfCanvas.drawString(
+            ((30 + 40 + 40) * mm) + self.space,
+            y + self.space,
+            boletoDados.cedente_documento
+        )
+
         self.pdfCanvas.drawRightString(
             self.width - 2 * self.space,
             y + self.space,

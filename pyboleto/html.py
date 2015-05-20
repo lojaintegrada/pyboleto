@@ -164,6 +164,7 @@ class BoletoHTML(object):
         else:
             tpl_data['local_pagamento'] = boletoDados.local_pagamento
         tpl_data['cedente'] = boletoDados.cedente
+        tpl_data['cedente_documento'] = boletoDados.cedente_documento
         tpl_data['agencia_conta_cedente'] = boletoDados.agencia_conta_cedente
 
         data_documento = boletoDados.data_documento
@@ -194,6 +195,8 @@ class BoletoHTML(object):
         tpl_data['sacado_info'] = ''
         for linha_sacado in boletoDados.sacado:
             tpl_data['sacado_info'] += '<p>{0}</p>'.format(linha_sacado)
+
+        tpl_data['sacado_documento'] = '<!--TODO-->'
 
         # Código de barras
         tpl_data['barcode'] = self._codigoBarraI25(boletoDados.barcode)

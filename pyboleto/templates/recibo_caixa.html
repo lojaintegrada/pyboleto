@@ -23,8 +23,11 @@
         </td>
       </tr>
       <tr>
-        <td colspan="6">
+        <td colspan="4">
           <div class="rotulo">Beneficiário</div> ${cedente}
+        </td>
+        <td colspan="2">
+          <div class="rotulo">CPF/CNPJ do Beneficiário</div> ${cedente_documento}
         </td>
         <td>
           <div class="rotulo">Agência/Código do Beneficiário</div>
@@ -108,8 +111,8 @@
     <tbody>
       <tr class="linha-grossa">
         <td class="col-sacado"><div class="rotulo">Pagador</div></td>
-        <td colspan="3">${sacado_info}</td>
-      </tr>
+        <td colspan="2">${sacado_info}</td>
+        <td><div class="rotulo">CPF/CNPJ</div> ${sacado_documento}</td>
       <tr>
       <td colspan="3" class="bol-codigo-barras">
          <div id="barcode">${barcode}</div>
