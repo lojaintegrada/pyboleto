@@ -471,8 +471,7 @@ class BoletoPDF(object):
         # Sacado documento
         self.pdfCanvas.drawString(self.width - (44 * mm), yy + self.deltaTitle, 'CPF/CNPJ')
 
-        # <!--TODO-->
-        sacado_documento = ""
+        sacado_documento = boletoDados.sacado_documento
         self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
         self.pdfCanvas.drawString(self.width - (44 * mm), yy + self.deltaTitle - 13, sacado_documento)
 

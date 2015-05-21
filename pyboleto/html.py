@@ -196,7 +196,7 @@ class BoletoHTML(object):
         for linha_sacado in boletoDados.sacado:
             tpl_data['sacado_info'] += '<p>{0}</p>'.format(linha_sacado)
 
-        tpl_data['sacado_documento'] = '<!--TODO-->'
+        tpl_data['sacado_documento'] = boletoDados.sacado_documento
 
         # Código de barras
         tpl_data['barcode'] = self._codigoBarraI25(boletoDados.barcode)
