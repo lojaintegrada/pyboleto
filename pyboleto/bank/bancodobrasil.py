@@ -45,6 +45,7 @@ class BoletoBB(BoletoData):
 
     def _set_nosso_numero(self, val):
         val = str(val)
+        nn = val
         if self.format_convenio == 6:
             if self.format_nnumero == 1:
                 nn = val.zfill(5)
