@@ -272,7 +272,7 @@ class BoletoPDF(object):
             'CPF/CNPJ Beneficiário'
         )
         self.pdfCanvas.drawString(
-            self.width - (30 * mm) - (35 * mm) - (40 * mm) + self.space,
+            self.width - (30 * mm) - (35 * mm) + self.space,
             (((linhaInicial + 2) * self.heightLine)) + self.deltaTitle,
             'Agência/Código do Beneficiário'
         )
