@@ -15,6 +15,7 @@ from reportlab.graphics.barcode.common import I2of5
 from reportlab.lib.colors import black
 from reportlab.lib.pagesizes import A4, landscape as pagesize_landscape
 from reportlab.lib.units import mm, cm
+from reportlab.lib.utils import simpleSplit
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
@@ -461,11 +462,15 @@ class BoletoPDF(object):
         self.__horizontalLine(0, y, self.width)
         self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
         for i in range(len(sacado)):
-            self.pdfCanvas.drawString(
-                15 * mm,
-                (y - 10) - (i * self.deltaFont),
-                sacado[i]
-            )
+            L = simpleSplit(sacado[i],'Helvetica',self.fontSizeValue,350)
+            yyy = y
+            for t in L:
+                self.pdfCanvas.drawString(
+                    15 * mm,
+                    (yyy - 10) - (i * self.deltaFont),
+                    t
+                )
+                yyy -= self.pdfCanvas._leading
         self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
 
         # Sacado documento
